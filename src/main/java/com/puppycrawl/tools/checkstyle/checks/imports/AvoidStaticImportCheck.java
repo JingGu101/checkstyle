@@ -156,6 +156,9 @@ public class AvoidStaticImportCheck
         }
     }
 
+    public int getNumOfDetailAST(final DetailAST ast) {
+        return ast.getChildCount();
+    }
     /**
      * Checks if a class or static member is exempt from known excludes.
      *
@@ -164,6 +167,18 @@ public class AvoidStaticImportCheck
      * @return true if except false if not
      */
     private boolean isExempt(String classOrStaticMember) {
+        boolean exempt = false;
+
+        for (String exclude : excludes) {
+            if (classOrStaticMember.equals(exclude)
+                    || isStarImportOfPackage(classOrStaticMember, exclude)) {
+                exempt = true;
+                break;
+            }
+        }
+        return exempt;
+    }
+    public boolean Proj5_isExempt(String classOrStaticMember) {
         boolean exempt = false;
 
         for (String exclude : excludes) {
